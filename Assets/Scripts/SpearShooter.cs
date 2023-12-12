@@ -30,13 +30,5 @@ public class SpearShooter : MonoBehaviour
         Vector2 direction = (mousePosition - transform.position).normalized;
 
         rb.AddForce(direction * shootingForce);
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Spear"))
-        {
-            Destroy(other.gameObject);
-        }
-    }
+   }
 }
