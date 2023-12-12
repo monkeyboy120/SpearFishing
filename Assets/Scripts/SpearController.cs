@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class SpearController : MonoBehaviour
 {
-    void Update()
+    private SpearShooter shooter;
+
+    void Start()
     {
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPosition.z = 0;
+        shooter = FindObjectOfType<SpearShooter>();
+    }
 
-        Vector3 direction = mouseWorldPosition - transform.position;
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 45;
-
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player") && gameObject.CompareTag("Spear"))
+        {
+            shooter.CollectSpear();
+            Destroy(gameObject);
+        }
     }
 }

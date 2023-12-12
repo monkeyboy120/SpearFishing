@@ -1,34 +1,49 @@
-using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpearShooter : MonoBehaviour
 {
     public GameObject spearPrefab;
     public float shootingForce = 500f;
+    public int maxSpears = 5;
+    private int currentSpears;
+    public TextMeshProUGUI spearCountText;
+
+    void Start()
+    {
+        currentSpears = maxSpears;
+        UpdateSpearCountText();
+    }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && currentSpears > 0)
         {
-            ShootSpear();
+            ShootSpearTowardsCursor();
+            currentSpears--;
+            UpdateSpearCountText();
         }
     }
 
-    void ShootSpear()
+    void ShootSpearTowardsCursor()
     {
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPosition.z = 0;
+        Vector2 shootingDirection = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+        GameObject spear = Instantiate(spearPrefab, transform.position, Quaternion.identity);
+        Rigidbody2D spearRigidbody = spear.GetComponent<Rigidbody2D>();
+        spearRigidbody.velocity = shootingDirection * shootingForce;
+        float angle = Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg;
+        spear.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
 
-        Vector3 x = mouseWorldPosition - transform.position;
+    public void CollectSpear()
+    {
+        currentSpears = Mathf.Min(currentSpears + 1, maxSpears);
+        UpdateSpearCountText();
+    }
 
-        float angle = Mathf.Atan2(x.y, x.x) * Mathf.Rad2Deg - 45;
-
-        GameObject spear = Instantiate(spearPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward));
-        Rigidbody2D rb = spear.GetComponent<Rigidbody2D>();
-
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = (mousePosition - transform.position).normalized;
-
-        rb.AddForce(direction * shootingForce);
-   }
+    void UpdateSpearCountText()
+    {
+        spearCountText.text = "Spears: " + currentSpears;
+    }
 }
