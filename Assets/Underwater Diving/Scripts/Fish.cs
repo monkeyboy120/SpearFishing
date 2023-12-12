@@ -23,9 +23,9 @@ public class Enemy : MonoBehaviour {
 		thePlayer = FindObjectOfType<PlayerController> ();	
 		myRigidbody = GetComponent<Rigidbody2D> ();
 
-		turnTimer = 0;
-		timeTrigger = 3f;
-		 
+		turnTimer = Random.Range(1,5);
+		timeTrigger = Random.Range(1, 5);
+
 	}
 
 	// Update is called once per frame
