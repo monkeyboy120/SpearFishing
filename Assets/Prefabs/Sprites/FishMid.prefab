@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9608d209ea1884745841726a7230acf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeOfFish: 0
+  typeOfFish: 1
   score: 20
   deathEffect: {fileID: 1820545851295154, guid: b22a24e39bda14f3bb2b1feb1d07ee14,
     type: 3}

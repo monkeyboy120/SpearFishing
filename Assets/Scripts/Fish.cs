@@ -57,6 +57,7 @@ public class Fish : MonoBehaviour
         if (other.gameObject.CompareTag("Spear"))
         {
             Instantiate(deathEffect, transform.position, transform.rotation);
+            FindObjectOfType<MenuManager>().AddScore(this.score);
             Destroy(gameObject);
         }
     }

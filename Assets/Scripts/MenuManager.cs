@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public TextMeshProUGUI timerText; // Assign in Inspector
+    public TextMeshProUGUI scoreText;
     private float timeRemaining = 30f;
+    private int currentScore = 0;
 
     void Update()
     {
@@ -28,7 +30,7 @@ public class MenuManager : MonoBehaviour
 
     void EndGame()
     {
-
+        MainManager.Instance.UpdateHighScore(currentScore);
         SceneManager.LoadScene("Final Screen");
     }
 
@@ -36,9 +38,13 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
-
-    public void QuitGame()
+    void UpdateScore(int scoreToAdd) {
+        currentScore += scoreToAdd;
+        scoreText.text = "Score: " + currentScore;
+    }
+    public void AddScore(int scoreToAdd)
     {
-        Application.Quit();
+        currentScore += scoreToAdd;
+        scoreText.text = "Score: " + currentScore;
     }
 }

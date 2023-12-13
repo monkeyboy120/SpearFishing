@@ -54,4 +54,9 @@ public class SceneTransition : MonoBehaviour
 
         fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b, targetAlpha);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
