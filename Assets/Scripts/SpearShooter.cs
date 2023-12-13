@@ -18,7 +18,7 @@ public class SpearShooter : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && currentSpears > 0)
+        if (Input.GetMouseButtonDown(0) && currentSpears > 0 && !PauseMenuScript.isPaused)
         {
             ShootSpearTowardsCursor();
             currentSpears--;

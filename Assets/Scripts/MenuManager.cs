@@ -5,33 +5,40 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    public TextMeshProUGUI timerText; // Assign in Inspector
+    public Image oxygenBar;
+    public float maxOxygen = 30f;
+    private float currentOxygen;
     public TextMeshProUGUI scoreText;
-    private float timeRemaining = 30f;
     private int currentScore = 0;
+    private SceneTransition sceneTransition;
+    private bool gameEnded = false;
+
+    void Start()
+    {
+        sceneTransition = FindObjectOfType<SceneTransition>();
+        currentOxygen = maxOxygen;
+    }
 
     void Update()
     {
-        if (timeRemaining > 0)
+        if (currentOxygen > 0)
         {
-            timeRemaining -= Time.deltaTime;
-            UpdateTimerDisplay();
+            currentOxygen -= Time.deltaTime;
+            oxygenBar.fillAmount = currentOxygen / maxOxygen;
         }
-        else
+        else if (!gameEnded)
         {
+            gameEnded = true;
+            print("Game Over");
             EndGame();
         }
     }
 
-    void UpdateTimerDisplay()
-    {
-        timerText.text = "Time: " + Mathf.Round(timeRemaining).ToString();
-    }
 
     void EndGame()
     {
         MainManager.Instance.UpdateHighScore(currentScore);
-        SceneManager.LoadScene("Final Screen");
+        sceneTransition.FadeToScene("Final Screen");
     }
 
     public void PlayGame()
